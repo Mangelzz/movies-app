@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+
+  &__logo {
+    display: flex;
+    margin-right: 40px;
+    img {
+      width: 40px;
+    }
+  }
+  ul {
+    width: 100%;
+  }
+  a {
+    transition: all 0.3s ease-in-out;
+  }
+  a:hover{
+    color: #fff;
+    background-color: #1677FF;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+  }
+}
