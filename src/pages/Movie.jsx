@@ -1,6 +1,77 @@
+import { Row, Col, Button } from "antd";
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import { API_KEY, API_URL } from "../utils/constans";
+import Loading from "../components/Loading";
+import useFetch from "../hooks/useFetch";
+import "../sass/Movie.scss";
+
 const Movie = () => {
+  const { id } = useParams();
+  const infoMovie = useFetch(
+    `${API_URL}/movie/${id}?api_key=${API_KEY}&language=en-EN`
+  );
+
+  if (infoMovie.loading || !infoMovie.result) {
+    return <Loading />;
+  }
+
+  return <RenderMovie movie={infoMovie.result} />;
+};
+export default Movie;
+
+function RenderMovie({ movie }) {
+  const { id, title, backdrop_path, poster_path } = movie;
+  const backdropPath = `https://image.tmdb.org/t/p/original${backdrop_path}`;
+
   return (
-    <div>Movie</div>
+    <div
+      className="movie"
+      style={{ backgroundImage: `url('${backdropPath}')` }}
+    >
+      <div className="movie__dark" />
+      <Row>
+        <Col span={8} offset={3} className="movie__poster">
+          <PosterMovie image={poster_path} />
+        </Col>
+        <Col span={10} className="movie__info">
+          <MovieInfo movie={movie} />
+        </Col>
+      </Row>
+    </div>
+  );
+}
+
+function PosterMovie({ image }) {
+  const posterPath = `https://image.tmdb.org/t/p/original${image}`;
+
+  return (
+    <div style={{backgroundImage: `url(${posterPath})`}} />
   )
 }
-export default Movie
+
+function MovieInfo({ movie }) {
+  const { id, title, release_date, overview, genres } = movie;
+  return (
+    <>
+      <div className="movie__info-header">
+        <h1>
+          {title}
+          <span>{moment(release_date, "YYYY-MM-DD").format("YYYY")}</span>
+        </h1>
+        <button>Play trailer</button>
+        <div className="movie__info-header-genres">
+          {genres.map((genre) => (
+            <p key={genre.id} className="movie__info-header-genre">
+              {genre.name}
+            </p>
+          ))}
+        </div>
+      </div>
+      <div className="movie__info-content">
+        <h3>Includes</h3>
+        <p>{overview}</p>
+      </div>
+    </>
+  );
+}

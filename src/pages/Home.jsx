@@ -3,6 +3,7 @@ import { Row, Col } from "antd";
 import SliderMovies from "../components/SliderMovies"
 import { API_URL, API_KEY } from "../utils/constans"
 import MovieList from "../components/MovieList";
+import Footer from "../components/Footer";
 
 const Home = () => {
 
@@ -22,6 +23,7 @@ const Home = () => {
           <MovieList title="Top Rated" movies={topRatedMovies} />
         </Col>
       </Row>
+      <Footer />
     </>
   )
 }

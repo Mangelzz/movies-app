@@ -17,7 +17,7 @@ const App = () => {
   return (
     <Layout>
       <BrowserRouter>
-        <Header>
+        <Header style={{ zIndex: 1 }}>
 					<Navbar />
 				</Header>
 
