@@ -1,10 +1,13 @@
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button} from "antd";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { API_KEY, API_URL } from "../utils/constans";
 import Loading from "../components/Loading";
 import useFetch from "../hooks/useFetch";
 import "../sass/Movie.scss";
+import VideoModal from "../components/VideoModal";
+import { useState } from "react";
+import { PlayCircleOutlined } from '@ant-design/icons';
 
 const Movie = () => {
   const { id } = useParams();
@@ -52,6 +55,42 @@ function PosterMovie({ image }) {
 
 function MovieInfo({ movie }) {
   const { id, title, release_date, overview, genres } = movie;
+  const [isVisibleModal, setVisivleModal] = useState(false);
+  const videoMovie = useFetch(`${API_URL}/movie/${id}/videos?api_key=${API_KEY}&language=en-EN`)
+
+  const openModal = () => setVisivleModal(true);
+  const closeModal = () => setVisivleModal(false);
+
+  const findTrailer = (videos) => {
+    for (const video of videos) {
+      if (video.type === "Trailer" && video.site === "YouTube") {
+        return video;
+      }
+    }
+    return null;
+  }
+
+  const renderVideo = () => {
+    if (videoMovie.result && videoMovie.result.results.length > 0) {
+      const trailer = findTrailer(videoMovie.result.results);
+      if (trailer) {
+        return (
+          <>
+            <div className="play-trailer">
+              <button onClick={openModal}><PlayCircleOutlined />Play Trailer</button>
+            </div>
+            <VideoModal
+              videoKey={trailer.key}
+              videoPlatform={trailer.site}
+              isOpen={isVisibleModal}
+              close={closeModal}
+            />
+          </>
+        )
+      }
+    }
+  }
+
   return (
     <>
       <div className="movie__info-header">
@@ -59,7 +98,7 @@ function MovieInfo({ movie }) {
           {title}
           <span>{moment(release_date, "YYYY-MM-DD").format("YYYY")}</span>
         </h1>
-        <button>Play trailer</button>
+        {renderVideo()}
         <div className="movie__info-header-genres">
           {genres.map((genre) => (
             <p key={genre.id} className="movie__info-header-genre">

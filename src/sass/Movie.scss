@@ -21,15 +21,15 @@
   }
 
   &__poster {
-    height: 70%;
+    height: 80%;
 
     div {
       height: 100%;
       width: 100%;
       background-repeat: no-repeat;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
-      border-radius: 10px;
+      border-radius: 20px;
     }
   }
 
@@ -70,9 +70,9 @@
       font-size: 26px;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
-      margin: 10px 0;
+      margin: 20px 0;
       border: 1px solid turquoise;
-      padding: 5px;
+      padding: 8px;
 
       &:hover {
         color: rgb(48, 185, 172);
@@ -91,4 +91,10 @@
       border-radius: 10px;
     }
   }
+}
+
+.play-trailer button {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 }
