@@ -347,3 +347,17 @@ template {
 [hidden] {
   display: none;
 }
+
+.new-movie {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+
+
+@media (min-width: 768px) {
+  .new-movie {
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+  }
+}

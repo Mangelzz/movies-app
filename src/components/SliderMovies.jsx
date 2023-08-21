@@ -1,11 +1,11 @@
 import "../sass/SliderMovies.scss"
-import { Carousel, Button } from "antd"
-import { Link } from "react-router-dom"
+import { Carousel } from "antd"
 import Movie from "./Movie"
 import Loading from "./Loading"
 
 const SliderMovies = ({ movies }) => {
-  
+
+  // eslint-disable-next-line react/prop-types
   if(movies.loading || !movies.result){
     return <Loading />
   }
